@@ -31,12 +31,13 @@ class ChatStatistics:
         stopwords = list(map(str.strip, stopwords))
         self.stopwords = list(map(self.normalizer.normalize, stopwords))
 
-
     def generate_word_cloud(
         self,
-        output_file_path: Union[str, Path]
-        ):
-        """generate word cloud from a text file(.json or .txt) and save it to output_file_path
+        output_file_path: Union[str, Path],
+        width: int = 800, height: int = 600,
+        max_font_size: int = 250
+    ):
+        """generate word cloud and save it to output_file_path
 
         :return: save .png to output_file_path
         :rtype: .png
@@ -66,7 +67,7 @@ class ChatStatistics:
 
         text_content = text_str + ' ' + text_list
 
-        #reshape, and normalize text content
+        # reshape, and normalize text content
         logger.info("Reshape and normalizing text content")
         text = self.normalizer.normalize(text_content)
         text = arabic_reshaper.reshape(text[:500000])
@@ -75,14 +76,13 @@ class ChatStatistics:
         # generate wordcloud
         logger.info("Generating wordcloud...")
         wordcloud = WordCloud(
-        font_path=str(DATA_DIR / 'Mitra_Bold.ttf'),
-        width=1800,
-        height=1200,
-        background_color='white'
+            font_path=str(DATA_DIR / 'Mitra_Bold.ttf'),
+            width=1800,
+            height=1200,
+            background_color='white'
         ).generate(text)
 
         # save to output_file_path
         logger.info("Saving wordcloud to: %s" % output_file_path)
         wordcloud.to_file(str(Path(output_file_path) / 'wordcloud.png'))
         logger.info("Done.")
-
