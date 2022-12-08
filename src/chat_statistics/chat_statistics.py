@@ -10,6 +10,11 @@ from src.data import DATA_DIR
 from wordcloud import WordCloud
 
 
+
+# im here
+
+
+
 class ChatStatistics:
     """Generates chat statistics
     """
